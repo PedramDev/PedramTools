@@ -11,37 +11,38 @@ namespace PedramDev.PackageBases
             where ModelType : class, new()
         {
             using var client = _factory.CreateClient();
-            client.BaseAddress = new Uri(baseUrl);
 
-            var httpGetResponse = await client.GetAsync(path);
+            var httpGetResponse = await client.GetAsync(FinalPathGenerator(baseUrl, path));
             var data = await httpGetResponse.Content.ReadAsStringAsync();
             return JsonSerializer.Deserialize<ModelType>(data);
         }
         public async Task<string> Get(string path, string baseUrl)
         {
             using var client = _factory.CreateClient();
-            client.BaseAddress = new Uri(baseUrl);
 
-            var httpGetResponse = await client.GetAsync(path);
+            var httpGetResponse = await client.GetAsync(FinalPathGenerator(baseUrl, path));
             return await httpGetResponse.Content.ReadAsStringAsync();
         }
 
         public async Task Post(string path, string baseUrl)
         {
             using var client = _factory.CreateClient();
-            client.BaseAddress = new Uri(baseUrl);
 
-            _ = await client.PostAsync(path, null);
+            _ = await client.PostAsync(FinalPathGenerator(baseUrl, path), null);
         }
         public async Task Post<ModelType>(string path, string baseUrl, ModelType request)
         {
             using var client = _factory.CreateClient();
-            client.BaseAddress = new Uri(baseUrl);
 
             var body = JsonSerializer.Serialize(request);
             var content = new StringContent(body, Encoding.UTF8, "application/json");
 
-            _ = await client.PostAsync(path, content);
+            _ = await client.PostAsync(FinalPathGenerator(baseUrl,path), content);
+        }
+
+        private string FinalPathGenerator(string basePath , string methodPath)
+        {
+            return basePath.TrimEnd('/') + methodPath;
         }
     }
 
