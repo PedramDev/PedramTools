@@ -1,5 +1,6 @@
 ﻿using System.Text.Json;
 using System.Text;
+using System.Net.Http;
 
 namespace PedramDev.PackageBases
 {
@@ -45,5 +46,4 @@ namespace PedramDev.PackageBases
             return basePath.TrimEnd('/') + methodPath;
         }
     }
-
 }
