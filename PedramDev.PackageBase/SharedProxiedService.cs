@@ -2,7 +2,7 @@
 
 namespace PedramDev.PackageBases
 {
-    public abstract class SharedProxiedService
+    public abstract class SharedProxiedService : IDisposable
     {
         protected HttpClientHandler _httpClientHandler;
         protected HttpClient _httpClient;
@@ -41,6 +41,13 @@ namespace PedramDev.PackageBases
             }
 
             _httpClient.DefaultRequestHeaders.Clear();
+        }
+
+        public void Dispose()
+        {
+            _httpClientHandler?.Dispose();
+            _httpClient?.Dispose();
+            GC.SuppressFinalize(this);
         }
     }
 }
