@@ -1,5 +1,5 @@
-﻿using System.Text.Json;
-using System.Text;
+﻿using System.Text;
+using System.Text.Json;
 
 namespace PedramDev.PackageBases
 {
@@ -37,10 +37,10 @@ namespace PedramDev.PackageBases
             var body = JsonSerializer.Serialize(request);
             var content = new StringContent(body, Encoding.UTF8, "application/json");
 
-            _ = await client.PostAsync(FinalPathGenerator(baseUrl,path), content);
+            _ = await client.PostAsync(FinalPathGenerator(baseUrl, path), content);
         }
 
-        private string FinalPathGenerator(string basePath , string methodPath)
+        private string FinalPathGenerator(string basePath, string methodPath)
         {
             return basePath.TrimEnd('/') + methodPath;
         }
